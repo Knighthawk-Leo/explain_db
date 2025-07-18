@@ -6,12 +6,12 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setup(
     name="explain_db",
     version="0.1.0",
-    author="Sanskar Dwivedik",
+    author="Sanskar Dwivedi",
     author_email="sanskardwivedi003@gmail.com",
     description="A Django package to expose model metadata via API",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/explain_db",
+    url="https://github.com/Knighthawk-Leo/explain_db",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 3 - Alpha",

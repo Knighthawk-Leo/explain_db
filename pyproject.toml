@@ -1,9 +1,3 @@
 [build-system]
 requires = ["setuptools>=45", "wheel"]
-build-backend = "setuptools.build_meta"
-
-[tool.setuptools]
-packages = ["explain_db"]
-
-[tool.setuptools.package-data]
-explain_db = ["*.txt", "*.md"] 
+build-backend = "setuptools.build_meta" 
