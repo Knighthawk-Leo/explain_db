@@ -37,7 +37,7 @@ urlpatterns = [
 The package exposes one API endpoint that returns metadata for a specified Django model:
 
 ```
-GET /api/explain/<model_name>/
+GET /api/explain/model/<model_name>/
 ```
 
 ### Example
@@ -77,6 +77,13 @@ The API returns detailed information about the model including:
     }
 ]
 ```
+
+```
+GET /api/explain/models/all
+```
+### Response Format
+
+This endpoint returns metadata for all Django models in installed apps.
 
 ## Requirements
 
