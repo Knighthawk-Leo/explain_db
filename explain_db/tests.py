@@ -29,9 +29,9 @@ class ModelProviderTestCase(TestCase):
         result = ModelProvider.force_str_safe(lambda: "test")
         self.assertEqual(result, "<callable>")
     
-    def test_get_ikshana_model_data_valid_model(self):
+    def test_model_data_valid_model(self):
         """Test getting model data for a valid model."""
-        model_data = ModelProvider.get_ikshana_model_data('User')
+        model_data = ModelProvider.model_data('User')
         self.assertIsInstance(model_data, list)
         self.assertEqual(len(model_data), 1)
         
@@ -41,13 +41,13 @@ class ModelProviderTestCase(TestCase):
         self.assertIn('columns', table_info)
         self.assertIsInstance(table_info['columns'], list)
     
-    def test_get_ikshana_model_data_invalid_model(self):
+    def test_model_data_invalid_model(self):
         """Test getting model data for an invalid model raises ValueError."""
         with self.assertRaises(ValueError):
-            ModelProvider.get_ikshana_model_data('InvalidModel')
+            ModelProvider.model_data('InvalidModel')
 
 
-class GetIkshanaModelDataAPITestCase(APITestCase):
+class GetModelDataAPITestCase(APITestCase):
     """Test the API endpoint functionality."""
     
     def test_get_valid_model_data(self):

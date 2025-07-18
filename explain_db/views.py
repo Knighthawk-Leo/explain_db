@@ -8,7 +8,35 @@ import json
 
 class ModelProvider:
     @classmethod
-    def get_ikshana_model_data(cls, model_name):
+    def list_all_models(cls):
+        """
+        List all model tables available across installed Django apps.
+
+        Returns:
+            List of dictionaries with model metadata including:
+            - app_label
+            - model_name
+            - db_table
+            - verbose_name
+            - docstring (if available)
+        """
+        model_list = []
+        for model in apps.get_models():
+            model_meta = model._meta
+            model_info = {
+                "app_label": model_meta.app_label,
+                "model_name": model.__name__,
+                "db_table": model_meta.db_table,
+                "verbose_name": model_meta.verbose_name,
+                "doc": model.__doc__ or "",
+            }
+            model_list.append(model_info)
+
+        return model_list
+
+
+    @classmethod
+    def model_data(cls, model_name):
         """
         Get metadata for a Django model by name.
         
@@ -155,11 +183,10 @@ class ModelProvider:
             return str(default)
 
 
-class GetIkshanaModelData(views.APIView):
+class GetModelData(views.APIView):
     """
     API View to get metadata for a Django model.
     
-    GET /api/explain/<model_name>/
     """
     
     def get(self, request, model_name):
@@ -174,7 +201,7 @@ class GetIkshanaModelData(views.APIView):
             Response containing model metadata
         """
         try:
-            model_data = ModelProvider.get_ikshana_model_data(model_name)
+            model_data = ModelProvider.model_data(model_name)
             return Response(model_data, status=status.HTTP_200_OK)
         except ValueError as e:
             return Response(
@@ -186,3 +213,28 @@ class GetIkshanaModelData(views.APIView):
                 {"error": f"Internal server error: {str(e)}"}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             ) 
+
+class GetAllModelData(views.APIView):
+    """
+    API View to get metadata for all models.
+    
+    """
+
+    def get(self, request):
+        """
+        Retrieve metadata for all models.
+
+        Args:
+            request: HTTP request object
+
+        Returns:
+            Response containing metadata for all models
+        """
+        try:
+            model_data = ModelProvider.list_all_models()
+            return Response(model_data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {"error": f"Internal server error: {str(e)}"}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
